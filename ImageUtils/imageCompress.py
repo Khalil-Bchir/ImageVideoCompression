@@ -1,7 +1,7 @@
-from flask import render_template
-from PIL import Image, UnidentifiedImageError
 from io import BytesIO
+
 import requests
+from PIL import Image, UnidentifiedImageError
 
 
 def compress_image(url, max_size):
