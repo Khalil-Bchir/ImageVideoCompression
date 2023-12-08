@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media File Compression App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #app {
+            max-width: 600px;
+            margin: 50px auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        p.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <h1>video Compression App</h1>
+
+    <label for="videoUrl">video URL:</label>
+    <input id="videoUrl" type="text" placeholder="Enter video URL">
+
+    <button onclick="compressVideo()">Compress video</button>
+
+    <div id="result" style="display: none;">
+        <h2>Compressed video</h2>
+        <img id="compressedvideo" alt="Compressed video">
+
+        <h2>Compression Stats</h2>
+        <ul id="compressionStats"></ul>
+    </div>
+
+    <p id="errorMessage" class="error" style="display: none;"></p>
+</div>
+
+<script>
+    function compressVideo() {
+    const videoUrl = document.getElementById('videoUrl').value;
+
+    fetch('http://localhost:5000/compress_video', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ video_url: videoUrl }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Display results
+            document.getElementById('compressedvideo').src = 'data:video/webp;base64,' + data.compressed_video;
+            displayCompressionStats(data.compression_stats);
+            document.getElementById('result').style.display = 'block';
+        })
+        .catch(error => {
+            // Display error message
+            document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
+            document.getElementById('errorMessage').style.display = 'block';
+        });
+    }
+
+    function displayCompressionStats(stats) {
+        const statsList = document.getElementById('compressionStats');
+        statsList.innerHTML = '';
+
+        for (const key in stats) {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<strong>${key}:</strong> ${stats[key]}`;
+            statsList.appendChild(listItem);
+        }
+    }
+</script>
+
+</body>
+</html>

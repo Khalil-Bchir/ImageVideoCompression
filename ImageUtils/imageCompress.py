@@ -1,7 +1,7 @@
-from io import BytesIO
-
-import requests
+from flask import render_template
 from PIL import Image, UnidentifiedImageError
+from io import BytesIO
+import requests
 
 
 def compress_image(url, max_size):
@@ -11,10 +11,6 @@ def compress_image(url, max_size):
 
         # Check if the response was successful
         response.raise_for_status()
-
-        # Print additional information for debugging
-        print(f"Downloaded Image URL: {url}")
-        print(f"Downloaded Image Content-Type: {response.headers['content-type']}")
 
         # Check if the content is an image
         if not response.headers['content-type'].startswith('image'):

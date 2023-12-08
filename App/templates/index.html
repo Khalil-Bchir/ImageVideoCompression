@@ -3,115 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Compression App</title>
+    <title>Media Compression App</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
         }
 
-        #app {
-            max-width: 600px;
-            margin: 50px auto;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 20px;
+        h1 {
+            color: #333;
         }
 
         button {
             padding: 10px;
+            margin: 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
-        }
-
-        img {
-            max-width: 100%;
-            margin-top: 20px;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        p.error {
-            color: red;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
-<div id="app">
-    <h1>Image Compression App</h1>
+<h1>Choose Media Type to Compress</h1>
 
-    <label for="imageUrl">Image URL:</label>
-    <input id="imageUrl" type="text" placeholder="Enter image URL">
-
-    <button onclick="compressImage()">Compress Image</button>
-
-    <div id="result" style="display: none;">
-        <h2>Compressed Image</h2>
-        <img id="compressedImage" alt="Compressed Image">
-
-        <h2>Compression Stats</h2>
-        <ul id="compressionStats"></ul>
-    </div>
-
-    <p id="errorMessage" class="error" style="display: none;"></p>
-</div>
+<button onclick="redirectTo('image')">Compress Image</button>
+<button onclick="redirectTo('video')">Compress Video</button>
 
 <script>
-    function compressImage() {
-        // Reset previous results
-        document.getElementById('result').style.display = 'none';
-        document.getElementById('errorMessage').style.display = 'none';
-
-        // Get the input value
-        const imageUrl = document.getElementById('imageUrl').value;
-
-        // Send a request to your API
-        fetch('http://localhost:5000/compress', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ image_url: imageUrl }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Display results
-            document.getElementById('compressedImage').src = 'data:image/webp;base64,' + data.compressed_image;
-            displayCompressionStats(data.compression_stats);
-            document.getElementById('result').style.display = 'block';
-        })
-        .catch(error => {
-            // Display error message
-            document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
-            document.getElementById('errorMessage').style.display = 'block';
-        });
-    }
-
-    function displayCompressionStats(stats) {
-        const statsList = document.getElementById('compressionStats');
-        statsList.innerHTML = '';
-
-        for (const key in stats) {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `<strong>${key}:</strong> ${stats[key]}`;
-            statsList.appendChild(listItem);
+    function redirectTo(mediaType) {
+        if (mediaType === 'image') {
+            window.location.href = 'http://localhost:5000/image';
+        } else if (mediaType === 'video') {
+            window.location.href = 'http://localhost:5000/video';
         }
     }
 </script>
