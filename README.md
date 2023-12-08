@@ -1,5 +1,4 @@
 
-```markdown
 # Media Compression App
 
 This is a simple Flask application for compressing videos and images. Users can choose to compress either a video or an image by providing the respective URL. The application uses ffmpeg for video compression and other libraries for image compression.
@@ -49,6 +48,10 @@ This is a simple Flask application for compressing videos and images. Users can 
 ## Contributing
 
 If you'd like to contribute to the project, feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 ```
 
-This updated README provides clear instructions for users to choose between video and image compression, along with the steps for each. Adjust the instructions based on the specifics of your application and any additional dependencies.
+This version focuses on the essential setup and usage instructions for users, without explicitly mentioning virtual environment setup. Users familiar with Python development will generally understand the importance of virtual environments, but you can always provide additional instructions as needed.
